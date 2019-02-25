@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "sim-edge-kube-client.fullname" . }}
+  labels:
+    app: {{ include "sim-edge-kube-client.fullname" . }}
+spec:
+  replicas: {{ .Values.scale}}
+  selector:
+    matchLabels:
+      app: {{ include "sim-edge-kube-client.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "sim-edge-kube-client.fullname" . }}
+    spec:
+      containers:
+      - name: {{ include "sim-edge-kube-client.fullname" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: kubeclient-port
+          containerPort: {{ .Values.service.port }}
+          protocol: TCP
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- if .Values.customResources.enablespecificdownload }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

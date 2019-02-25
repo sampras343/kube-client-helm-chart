@@ -1,0 +1,20 @@
+{{- if .Values.service.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "sim-edge-kube-client.fullname" . }}
+  labels:
+    app: {{ include "sim-edge-kube-client.fullname" . }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: kubeclient-port
+      port: {{ .Values.service.port }}
+      targetPort: kubeclient-port
+      {{- if .Values.service.nodePort }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
+      protocol: TCP
+  selector:
+    app: {{ include "sim-edge-kube-client.fullname" . }}
+{{- end }}

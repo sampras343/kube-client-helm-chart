@@ -1,0 +1,31 @@
+questions:
+
+- variable: "scale"
+  label: Container Scale
+  description: "Container Scale"
+  default: "1"
+  required: true
+  type: string
+  group: "Replica Set"
+
+- variable: "container_name"
+  label: Container Name
+  description: "Name of the container to be deployed."
+  default: "sim-edge-kube-client"
+  required: true
+  type: string
+  group: "sim-edge-kube-client Configurations"
+
+- variable: customResources.enablespecificdownload
+  default: false
+  description: "Download App to a specific device"
+  label: Enable Device Specific Download
+  type: boolean
+  show_subquestion_if: true
+  group: "Download Options"
+  subquestions:
+  - variable: nodeSelector.kubernetes\.io/hostname
+    default: "sim-edge-"
+    description: "Destination Device for App"
+    type: string
+    label: Specific Device
