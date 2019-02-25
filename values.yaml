@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: siemens/mosquitto-backend-controller-server
+  repository: watchlog
   tag: 0.0.0.1
 
 imagePullPolicy: IfNotPresent
