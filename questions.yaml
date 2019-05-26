@@ -1,20 +1,12 @@
 questions:
 
-- variable: "scale"
-  label: Container Scale
-  description: "Container Scale"
-  default: "1"
-  required: true
-  type: string
-  group: "Replica Set"
-
 - variable: "container_name"
   label: Container Name
   description: "Name of the container to be deployed."
-  default: "sim-edge-kube-client"
+  default: "sim-edge-platform-mqtt-broker"
   required: true
   type: string
-  group: "sim-edge-kube-client Configurations"
+  group: "Siemens MqttBroker Configurations"
 
 - variable: customResources.enablespecificdownload
   default: false
