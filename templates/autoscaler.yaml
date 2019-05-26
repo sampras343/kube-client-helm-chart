@@ -6,7 +6,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "sim-edge-mosquitto-broker.fullname" . }}
+    name: sim-edge-mosquitto-broker
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 5
