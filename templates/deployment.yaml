@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sim-edge-mosquitto-broker
+  name: {{ include "sim-edge-mosquitto-broker.fullname" . }}
   labels:
     app: {{ include "sim-edge-mosquitto-broker.name" . }}
     chart: {{ include "sim-edge-mosquitto-broker.chart" . }}

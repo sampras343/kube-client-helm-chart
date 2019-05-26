@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: broker-scaler
+  name: {{ include "sim-edge-mosquitto-broker.fullname" . }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: sim-edge-mosquitto-broker
+    name: {{ include "sim-edge-mosquitto-broker.fullname" . }}
   minReplicas: 1
   maxReplicas: 10
-  targetCPUUtilizationPercentage: 5
+  targetCPUUtilizationPercentage: 2
