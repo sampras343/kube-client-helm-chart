@@ -1,27 +1,36 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "sim-edge-kube-client.fullname" . }}
+  name: {{ include "sim-edge-mosquitto-broker.fullname" . }}
   labels:
-    app: {{ include "sim-edge-kube-client.fullname" . }}
+    app: {{ include "sim-edge-mosquitto-broker.name" . }}
+    chart: {{ include "sim-edge-mosquitto-broker.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.scale}}
   selector:
     matchLabels:
-      app: {{ include "sim-edge-kube-client.fullname" . }}
+      app: {{ include "sim-edge-mosquitto-broker.name" . }}
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ include "sim-edge-kube-client.fullname" . }}
+        app: {{ include "sim-edge-mosquitto-broker.name" . }}
+        release: {{ .Release.Name }}
     spec:
       containers:
-      - name: {{ include "sim-edge-kube-client.fullname" . }}
+      - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: IfNotPresent
+        name: {{ include "sim-edge-mosquitto-broker.name" . }}
         ports:
-        - name: kubeclient-port
-          containerPort: {{ .Values.service.port }}
-          protocol: TCP
+        - containerPort: {{ .Values.service.port }}
+          name: "mqtt-port"
+          {{- if not .Values.service.enabled }}
+          hostPort: {{ .Values.service.hostPort }}
+          {{- end }}
+          protocol: TCP  
         resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- if .Values.customResources.enablespecificdownload }}

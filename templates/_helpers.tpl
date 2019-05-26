@@ -2,11 +2,11 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "sim-edge-kube-client.name" -}}
+{{- define "sim-edge-mosquitto-broker.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "sim-edge-kube-client.fullname" -}}
+{{- define "sim-edge-mosquitto-broker.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -23,11 +23,6 @@ Expand the name of the chart.
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "sim-edge-kube-client.chart" -}}
+{{- define "sim-edge-mosquitto-broker.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-
-{{- define "sim-edge-kube-client.volumeName" }}
-  name : {{ .Values.persistence.pvc | quote }}
-{{- end }}
-

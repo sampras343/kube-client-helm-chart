@@ -2,19 +2,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "sim-edge-kube-client.fullname" . }}
+  name: {{ include "sim-edge-mosquitto-broker.fullname" . }}
   labels:
-    app: {{ include "sim-edge-kube-client.fullname" . }}
+    app: {{ include "sim-edge-mosquitto-broker.name" . }}
+    chart: {{ include "sim-edge-mosquitto-broker.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }} 
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
-    - name: kubeclient-port
-      port: {{ .Values.service.port }}
-      targetPort: kubeclient-port
-      {{- if .Values.service.nodePort }}
-      nodePort: {{ .Values.service.nodePort }}
-      {{- end }}
-      protocol: TCP
+  - name: https
+    port: {{ .Values.service.port }}
   selector:
-    app: {{ include "sim-edge-kube-client.fullname" . }}
+    app: {{ include "sim-edge-mosquitto-broker.name" . }}
+    release: {{ .Release.Name }}
 {{- end }}
